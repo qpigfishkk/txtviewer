@@ -33,6 +33,32 @@ def text_view(a):
     text_viewer.config(state=DISABLED)
 
 
+# 去除标点符号，统一为小写
+def cleaner(words):
+    str1 = ''
+    for letter in words:
+        if (65 <= ord(letter) <= 90) or (97 <= ord(letter) <= 122):
+            str1 += letter.lower()
+        else:
+            str1 += ' '
+    global word_list
+    word_list = str1.split()
+    # 状态栏输出文本长度
+    text_num.config(text='文本长度：%s ' % len(word_list))
+
+
+# 词数、词频统计
+def word_statistics():
+    word_set = set(word_list)
+    global word_dict
+    word_dict = {}
+    for item in word_set:
+        word_dict[item] = word_list.count(item)
+    # 状态栏输出总词数
+    total_num.config(text='单词总数量：%s' % len(word_dict))
+    return word_dict
+
+
 # 主窗体
 top = Tk()
 top.title('文本编辑器')
