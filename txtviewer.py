@@ -114,6 +114,41 @@ def keywords_op(word_dict, stop_words):
     return c, d
 
 
+# 输出子图
+def bar_drawer(c, d):
+    global f
+    # 先尝试清空旧图像
+    try:
+        plt.cla()
+    finally:
+        pass
+    # 绘制柱状图
+    f = plt.figure(num=2, figsize=(4.5, 2.5), frameon=True)
+    fig = plt.subplot(1, 1, 1)
+    fig.barh(c, d)
+    plt.yticks(fontsize=6.5)
+    fig.grid()
+
+
+# 输出画布
+def picture_show():
+    global ca
+    global ca_label
+    # 先尝试清空旧画布
+    try:
+        ca_label.destroy()
+        ca._tkcanvas.destroy()
+    except:
+        pass
+    # 在画布上显示柱状图
+    ca_label = Label(bar_frame, text='关键词统计图', font=10)
+    ca = FigureCanvasTkAgg(f, bar_frame)
+    ca.draw()
+    ca_label.pack()
+    ca._tkcanvas.pack()
+
+
+
 # 主窗体
 top = Tk()
 top.title('文本编辑器')
