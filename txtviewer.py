@@ -148,6 +148,34 @@ def picture_show():
     ca._tkcanvas.pack()
 
 
+# 选择文本路径
+def select_path_1():
+    path1_ = askopenfilename()
+    path1.set(path1_)
+    datapath_entry.xview(MOVETO, 1.0)
+
+
+# 选择停用词表路径
+def selectpath2():
+    path2_ = askopenfilename()
+    path1.set(path2_)
+    stopwordspath_entry.xview(MOVETO, 1.0)
+
+
+# 执行统计
+def display():
+    dpath = datapath_entry.get()
+    spath = stopwordspath_entry.get()
+    a = file_reader(dpath)
+    text_view(a)
+    b = stopwords_input(spath)
+    cleaner(a)
+    wd = word_statistics()
+    c, d = keywords_op(wd, b)
+    treeview(wd)
+    bar_drawer(c, d)
+    picture_show()
+
 
 # 主窗体
 top = Tk()
