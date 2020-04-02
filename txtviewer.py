@@ -59,6 +59,61 @@ def word_statistics():
     return word_dict
 
 
+# 用表格输出词频
+def treeview(wd):
+    global wordcount
+    global tf_label
+    # 尝试清空旧表格
+    try:
+        tf_label.destroy()
+        wordcount.destroy()
+    except:
+        pass
+    tf_label = Label(excel_frame, text='词频统计', font=10)
+    wordcount = ttk.Treeview(excel_frame, show="headings")
+    wordcount['columns'] = ('单词', '频数')
+    wordcount.column('单词', width=180)
+    wordcount.column('频数', width=180)
+    wordcount.heading("单词", text="单词")
+    wordcount.heading("频数", text="频数")
+    wc_scr = Scrollbar(excel_frame, orient=VERTICAL)
+    wc_scr.config(command=wordcount.yview)
+    wordcount.config(yscrollcommand=wc_scr.set)
+    j = 0
+    for i in wd:
+        wordcount.insert("", j, values=(i, wd[i]))
+        j += 1
+    tf_label.grid(row=0, column=0, columnspan=2)
+    wordcount.grid(row=1, column=0)
+    wc_scr.grid(row=1, column=1, sticky=NS)
+
+
+# 关键词输出
+def keywords_op(word_dict, stop_words):
+    global c
+    global d
+    # 进行停用词的停用
+    word_dict_copy = word_dict.copy()
+    for key in word_dict:
+        if key in stop_words:
+            del word_dict_copy[key]
+    # 筛选关键词
+    word = list(word_dict_copy.keys())
+    count = list(word_dict_copy.values())
+    c = []
+    d = []
+    for j in range(6):
+        m = max(count)
+        ind = count.index(m)
+        a = word.pop(ind)
+        b = count.pop(ind)
+        c += [a]
+        d += [b]
+    c = c[::-1]
+    d = d[::-1]
+    return c, d
+
+
 # 主窗体
 top = Tk()
 top.title('文本编辑器')
