@@ -9,6 +9,30 @@ from matplotlib.pylab import mpl
 mpl.rcParams['axes.unicode_minus'] = False
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 
+
+# 读取文件
+def file_reader(pa):
+    file = open(pa, 'r', encoding='utf-8')
+    words = file.read()
+    file.close()
+    return words
+
+
+# 读取停用词表
+def stopwords_input(pa):
+    a = file_reader(pa)
+    stop_words = a.split('\n')[1:-2]
+    return stop_words
+
+
+# 显示文本内容
+def text_view(a):
+    text_viewer.config(state=NORMAL)
+    text_viewer.delete(1.0, END)
+    text_viewer.insert(END, a)
+    text_viewer.config(state=DISABLED)
+
+
 # 主窗体
 top = Tk()
 top.title('文本编辑器')
